@@ -67,9 +67,9 @@ read_number:
         je      .end
         sub     rax, '0'
         cmp     rax, 0
-        ; jl      InputError_wrongDigit
+        jl      InputError_wrongDigit
         cmp     rax, 9
-        ; jg      InputError_wrongDigit
+        jg      InputError_wrongDigit
 
         mov     rdi, rbx    ; rdi = buffer
         mov     rcx, r10    ; rcx = len
@@ -439,3 +439,20 @@ is_zero:
                 pop             rdi
                 pop             rax
                 ret
+
+
+
+InputError_wrongDigit:
+    mov rax, 1
+    mov rdi, 2
+    mov rsi, error_invalidNumber
+    mov rdx, error_invalidNumber_len
+    syscall
+    jmp exit
+
+
+
+section         .rodata
+error_invalidNumber:
+                db              "Invalid number",0x0a
+error_invalidNumber_len: equ             $ - error_invalidNumber
